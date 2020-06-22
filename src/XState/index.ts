@@ -1,10 +1,12 @@
 import { Machine, assign } from 'xstate'
+import { wait } from '../utils/delay'
+
 
 type Context = {
     emails?: []
 }
 
-const initialContext = {
+const initialContext: Context = {
     emails: undefined
 }
 
@@ -17,11 +19,11 @@ interface Schema {
     }
 }
 
-type Transitions = { type: 'OPEN' }
+type Transitions = { type: 'OPEN_EMAILS' }
 
 
 function fetchEmails() {
-    return Promise.resolve()
+    return wait({ delay: 2000 })
 }
 
 
@@ -35,22 +37,24 @@ const xStateMachine = Machine<Context, Schema, Transitions>(
         context: initialContext,
         states: {
             'IDLE': {
-                on: { 'OPEN': 'LOADING_EMAILS' }
+                on: { 'OPEN_EMAILS': 'LOADING_EMAILS' }
             },
             'LOADING_EMAILS': {
                 invoke: {
                     id: 'fetchEmails',
                     src: (context, event) => fetchEmails(),
                     onDone: {
-                        target: 'HOME_PAGE',
-                        actions: assign({ emails: (context, event) => event.data })
+                        actions: assign({ emails: (context, event) => event.data }),
+                        target: 'HOME_PAGE'
                     },
                     onError: {
                         target: 'APPLICATION_ERROR'
                     }
                 }
             },
-            'HOME_PAGE': {},
+            'HOME_PAGE': {
+                id: 'HOME_PAGE'
+            },
             'APPLICATION_ERROR': {
                 after: {
                     5000: `IDLE`,
@@ -59,4 +63,6 @@ const xStateMachine = Machine<Context, Schema, Transitions>(
         }
     }
 )
+
+export default xStateMachine
 
