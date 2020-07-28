@@ -10,10 +10,10 @@ const initialContext: Context = {
 
 interface Schema {
   states: {
-    IDLE: {};
+    HOME_PAGE: {};
     LOADING_EMAILS: {};
     ENTERING_APPLICATION: {};
-    HOME_PAGE: {};
+    INBOX: {};
     DRAFT_EMAIL: {};
     APPLICATION_ERROR: {};
   };
@@ -31,10 +31,10 @@ function isDraftingEmail() {
 
 const xStateMachine = Machine<Context, Schema, Transitions>({
   id: "example",
-  initial: "IDLE",
+  initial: "HOME_PAGE",
   context: initialContext,
   states: {
-    IDLE: {
+    HOME_PAGE: {
       on: { OPEN_EMAILS: "LOADING_EMAILS" },
     },
     LOADING_EMAILS: {
@@ -58,19 +58,19 @@ const xStateMachine = Machine<Context, Schema, Transitions>({
             target: "DRAFT_EMAIL",
             cond: isDraftingEmail,
           },
-          { target: "HOME_PAGE" },
+          { target: "INBOX" },
         ],
       },
     },
-    HOME_PAGE: {
-      id: "HOME_PAGE",
+    INBOX: {
+      id: "INBOX",
     },
     DRAFT_EMAIL: {
       id: "DRAFT_EMAIL",
     },
     APPLICATION_ERROR: {
       after: {
-        5000: `IDLE`,
+        5000: `HOME_PAGE`,
       },
     },
   },
