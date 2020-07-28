@@ -1,17 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { AppContext } from './Home';
+import { AppContext } from "./Home";
 
 export const State = ({ matches, children }: any) => {
-    const {
-        machine: { current },
-    } = React.useContext(AppContext);
+  const {
+    machine: { current },
+  } = React.useContext(AppContext);
 
-    if (current.matches(matches)) {
-        return children;
-    }
+  if (current.matches(matches)) {
+    return children;
+  }
 
-    return null;
+  return null;
 };
-
-
