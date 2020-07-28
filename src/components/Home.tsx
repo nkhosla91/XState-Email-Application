@@ -7,7 +7,22 @@ export const AppContext = React.createContext<any>(null);
 
 export const Home = () => {
   const [current, send] = useMachine(xStateMachine);
-  console.log(current.value);
+
+  // switch (current.value) {
+  //   case "HOME_PAGE":
+  //     return <button onClick={() => send("OPEN_EMAILS")}>Open</button>;
+  //   case "LOADING_EMAILS":
+  //     return <div>LOADING...</div>;
+  //   case "ENTERING_APPLICATION":
+  //     return <div>ENTERING...</div>;
+  //   case "INBOX":
+  //     return <div>INBOX</div>;
+  //   case "DRAFT_EMAIL":
+  //     return <div>DRAFT EMAIL...</div>;
+  //   case "APPLICATION_ERROR":
+  //     return <div>ERROR</div>;
+  // }
+
   return (
     <AppContext.Provider value={{ machine: { current, send } }}>
       <State matches={"HOME_PAGE"}>
@@ -23,7 +38,7 @@ export const Home = () => {
         <div>INBOX</div>
       </State>
       <State current={current} matches={"DRAFT_EMAIL"}>
-        <div>DRAFT_EMAIL</div>
+        <div>DRAFT EMAIL</div>
       </State>
       <State matches={"APPLICATION_ERROR"}>
         <div>ERROR</div>
@@ -31,17 +46,3 @@ export const Home = () => {
     </AppContext.Provider>
   );
 };
-
-// switch (current.value) {
-//     case 'HOME_PAGE':
-//         return (
-//             <button onClick={() => send('OPEN_EMAILS')}>Open</button>
-//         );
-//     case 'LOADING_EMAILS':
-//         return <div>Loading...</div>;
-//     case 'INBOX':
-//         return <div>INBOX</div>;
-//     case 'APPLICATION_ERROR':
-//         return <div>ERROR</div>;
-//         ;
-// }
