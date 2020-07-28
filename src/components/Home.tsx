@@ -10,7 +10,7 @@ export const Home = () => {
   console.log(current.value);
   return (
     <AppContext.Provider value={{ machine: { current, send } }}>
-      <State matches={"IDLE"}>
+      <State matches={"HOME_PAGE"}>
         <button onClick={() => send("OPEN_EMAILS")}>Open</button>
       </State>
       <State current={current} matches={"LOADING_EMAILS"}>
@@ -19,8 +19,8 @@ export const Home = () => {
       <State current={current} matches={"ENTERING_APPLICATION"}>
         <div>ENTERING...</div>
       </State>
-      <State matches={"HOME_PAGE"}>
-        <div>HOME</div>
+      <State matches={"INBOX"}>
+        <div>INBOX</div>
       </State>
       <State current={current} matches={"DRAFT_EMAIL"}>
         <div>DRAFT_EMAIL</div>
@@ -33,14 +33,14 @@ export const Home = () => {
 };
 
 // switch (current.value) {
-//     case 'IDLE':
+//     case 'HOME_PAGE':
 //         return (
 //             <button onClick={() => send('OPEN_EMAILS')}>Open</button>
 //         );
 //     case 'LOADING_EMAILS':
 //         return <div>Loading...</div>;
-//     case 'HOME_PAGE':
-//         return <div>HOME</div>;
+//     case 'INBOX':
+//         return <div>INBOX</div>;
 //     case 'APPLICATION_ERROR':
 //         return <div>ERROR</div>;
 //         ;
