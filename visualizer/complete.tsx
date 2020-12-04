@@ -28,7 +28,7 @@ const xStateMachine = Machine({
     ENTERING_APPLICATION: {
       id: "ENTERING_APPLICATION",
       on: {
-        "": [
+        entry: [
           {
             target: "DRAFT_EMAIL",
             cond: isDraftingEmail,

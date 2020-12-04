@@ -41,7 +41,7 @@ export const Home = () => {
         <div>DRAFT EMAIL</div>
       </State>
       <State matches={"APPLICATION_ERROR"}>
-        <div>ERROR</div>
+        <div>APPLICATION ERROR</div>
       </State>
     </AppContext.Provider>
   );

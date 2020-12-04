@@ -19,15 +19,16 @@ interface Schema {
   };
 }
 
-type Transitions = { type: "OPEN_EMAILS" };
+type Transitions = { type: "OPEN_EMAILS"} 
+// | {type: "ENTERING_APPLICATION"};
 
 async function fetchEmails() {
-  Promise.resolve();
+  Promise.resolve()
+  // throw TypeError()
 }
 function isDraftingEmail() {
   return false;
 }
-// xStateMachine
 
 const xStateMachine = Machine<Context, Schema, Transitions>({
   id: "example",
@@ -52,15 +53,13 @@ const xStateMachine = Machine<Context, Schema, Transitions>({
     },
     ENTERING_APPLICATION: {
       id: "ENTERING_APPLICATION",
-      on: {
-        "": [
-          {
-            target: "DRAFT_EMAIL",
-            cond: isDraftingEmail,
-          },
-          { target: "INBOX" },
-        ],
-      },
+      always:[
+        {
+          target: "DRAFT_EMAIL",
+          cond: isDraftingEmail,
+        },
+        { target: "INBOX" }
+      ]
     },
     INBOX: {
       id: "INBOX",
