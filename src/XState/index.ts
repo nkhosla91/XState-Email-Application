@@ -20,11 +20,9 @@ interface Schema {
 }
 
 type Transitions = { type: "OPEN_EMAILS"} 
-// | {type: "ENTERING_APPLICATION"};
 
 async function fetchEmails() {
   Promise.resolve()
-  // throw TypeError()
 }
 function isDraftingEmail() {
   return false;
