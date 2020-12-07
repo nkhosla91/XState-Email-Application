@@ -1,7 +1,7 @@
-import { Machine, assign } from "xstate";
+import { Machine, MachineConfig, MachineOptions, assign } from "xstate";
 
 type Context = {
-  emails?: [];
+  emails?: any;
 };
 
 const initialContext: Context = {
@@ -21,14 +21,8 @@ interface Schema {
 
 type Transitions = { type: "OPEN_EMAILS"} 
 
-async function fetchEmails() {
-  Promise.resolve()
-}
-function isDraftingEmail() {
-  return false;
-}
 
-const xStateMachine = Machine<Context, Schema, Transitions>({
+const xStateConfig: MachineConfig<Context, Schema, Transitions> = {
   id: "example",
   initial: "HOME_PAGE",
   context: initialContext,
@@ -38,10 +32,10 @@ const xStateMachine = Machine<Context, Schema, Transitions>({
     },
     LOADING_EMAILS: {
       invoke: {
-        id: "fetchEmails",
-        src: (context, event) => fetchEmails(),
+        id: "LOADING_EMAILS",
+        src: 'fetchEmails',
         onDone: {
-          actions: assign({ emails: (context, event) => event.data }),
+          actions: 'setEmails',
           target: "ENTERING_APPLICATION",
         },
         onError: {
@@ -54,7 +48,7 @@ const xStateMachine = Machine<Context, Schema, Transitions>({
       always:[
         {
           target: "DRAFT_EMAIL",
-          cond: isDraftingEmail,
+          cond: 'isDraftingEmail',
         },
         { target: "INBOX" }
       ]
@@ -71,6 +65,31 @@ const xStateMachine = Machine<Context, Schema, Transitions>({
       },
     },
   },
-});
+}
+
+const xStateOptions: Partial<MachineOptions<Context, any>> = {
+  services: {
+    fetchEmails: async () =>  {
+      return new Promise((resolve, reject) =>{
+        // resolve();
+        reject();
+      })
+    },
+  },
+  actions: {
+    setEmails: assign({ emails: (context, event) => event.data }),
+  },
+  guards: {
+    isDraftingEmail: () => {
+      return true;
+      // return false;
+    }
+  }
+}
+
+const xStateMachine = Machine<Context, Schema, Transitions>(
+  xStateConfig,
+  xStateOptions
+);
 
 export default xStateMachine;
