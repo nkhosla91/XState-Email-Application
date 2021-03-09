@@ -33,25 +33,25 @@ const xStateConfig: MachineConfig<Context, Schema, Transitions> = {
     LOADING_EMAILS: {
       invoke: {
         id: "LOADING_EMAILS",
-        src: 'fetchEmails',
+        src: "fetchEmails",
         onDone: {
-          actions: 'setEmails',
+          actions: "setEmails",
           target: "ENTERING_APPLICATION",
         },
         onError: {
-          target: "APPLICATION_ERROR",
+          target: "APPLIATION_ERROR",
         },
       },
     },
     ENTERING_APPLICATION: {
       id: "ENTERING_APPLICATION",
-      always:[
+      always: [
         {
           target: "DRAFT_EMAIL",
-          cond: 'isDraftingEmail',
+          cond: "isDraftingEmail",
         },
-        { target: "INBOX" }
-      ]
+        { target: "INBOX" },
+      ],
     },
     INBOX: {
       id: "INBOX",
@@ -65,15 +65,15 @@ const xStateConfig: MachineConfig<Context, Schema, Transitions> = {
       },
     },
   },
-}
+};
 
 const xStateOptions: Partial<MachineOptions<Context, any>> = {
   services: {
-    fetchEmails: async () =>  {
-      return new Promise((resolve, reject) =>{
+    fetchEmails: async () => {
+      return new Promise((resolve, reject) => {
         // resolve();
         reject();
-      })
+      });
     },
   },
   actions: {
@@ -83,9 +83,9 @@ const xStateOptions: Partial<MachineOptions<Context, any>> = {
     isDraftingEmail: () => {
       return true;
       // return false;
-    }
-  }
-}
+    },
+  },
+};
 
 const xStateMachine = Machine<Context, Schema, Transitions>(
   xStateConfig,
